@@ -7,11 +7,10 @@
 // Execute `rustlings hint errors3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::num::ParseIntError;
 
-fn main() {
+fn main() -> Result<(), ParseIntError>{
     let mut tokens = 100;
     let pretend_user_input = "8";
 
@@ -23,6 +22,7 @@ fn main() {
         tokens -= cost;
         println!("You now have {} tokens.", tokens);
     }
+    Ok(())// 如果写的是Ok(tokens)，会出现报错，i32没法作为终止类型
 }
 
 pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
