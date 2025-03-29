@@ -9,7 +9,7 @@
 // Execute `rustlings hint try_from_into` or use the `hint` watch subcommand for
 // a hint.
 
-use std::convert::{TryFrom, TryInto};
+use std::convert::{TryFrom, TryInto};// 类型转换
 
 #[derive(Debug, PartialEq)]
 struct Color {
@@ -27,8 +27,6 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
-
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
 // integers, an array of three integers, and a slice of integers.
@@ -41,6 +39,13 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let (red, green, blue) = tuple;
+
+        Ok(Color {
+            red: red.try_into().map_err(|_|IntoColorError::IntConversion)?, 
+            green: green.try_into().map_err(|_|IntoColorError::IntConversion)?,
+            blue: blue.try_into().map_err(|_|IntoColorError::IntConversion)?, 
+        })
     }
 }
 
@@ -48,6 +53,13 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let [red, green, blue] = arr;
+
+        Ok(Color {
+            red: red.try_into().map_err(|_|IntoColorError::IntConversion)?, 
+            green: green.try_into().map_err(|_|IntoColorError::IntConversion)?,
+            blue: blue.try_into().map_err(|_|IntoColorError::IntConversion)?, 
+        })
     }
 }
 
@@ -55,6 +67,19 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        // if slice.len() != 3{
+        //     return Err(IntoColorError::BadLen);
+        // }
+        let [red, green, blue] = match slice {
+            [r, g, b] => [r, g, b],
+            _ => return Err(IntoColorError::BadLen), 
+        };
+
+        Ok(Color {
+            red: (*red).try_into().map_err(|_|IntoColorError::IntConversion)?, 
+            green: (*green).try_into().map_err(|_|IntoColorError::IntConversion)?,
+            blue: (*blue).try_into().map_err(|_|IntoColorError::IntConversion)?, 
+        })
     }
 }
 
