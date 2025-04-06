@@ -8,10 +8,15 @@ where
     T: PartialOrd,
 {
     for i in 0..array.len() {
+        let mut swapped = false; // 新增交换标志
         for j in 0..(array.len() - 1 - i) {
             if array[j] > array[j + 1] {
-                array.swap(j, j + 1)
+                array.swap(j, j + 1);
+                swapped = true;
             }
+        }
+        if !swapped { // 提前终止
+            break;
         }
     }
 }
